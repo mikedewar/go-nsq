@@ -372,7 +372,10 @@ func (q *Reader) queryLookupd() {
 		if ok {
 			address = broadcastAddress.MustString()
 		}
-		port := producer.Get("tcp_port").MustInt()
+		port, err := producer.Get("tcp_port").Int()
+		if err != nil {
+			log.Fatal(err.Error())
+		}
 
 		// make an address, start a connection
 		joined := net.JoinHostPort(address, strconv.Itoa(port))
